@@ -4,7 +4,6 @@ import { Inter, Playfair_Display, JetBrains_Mono } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
 import { FloatingAIChat } from '@/components/ui/floating-ai-chat'
 import { AudioProvider } from '@/components/providers/audio-context'
-import { CinematicPlayer } from '@/components/ui/cinematic-player'
 import './globals.css'
 
 const inter = Inter({ 
@@ -58,7 +57,6 @@ export default function RootLayout({
       <body className={`${inter.variable} ${playfair.variable} ${jetbrainsMono.variable} font-sans antialiased bg-background`}>
         <AudioProvider>
           {children}
-          <CinematicPlayer />
           <FloatingAIChat />
           <Analytics />
         </AudioProvider>
