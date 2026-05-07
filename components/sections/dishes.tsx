@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react"
 import Image from "next/image"
 import { ImageReveal } from "@/components/ui/image-reveal"
+import { CinemaInsightsTable } from "@/components/sections/cinema-table"
 
 export function DishesSection() {
   const [isVisible, setIsVisible] = useState(false)
@@ -235,6 +236,9 @@ export function DishesSection() {
             but explore our full library to discover your next favorite.
           </p>
         </div>
+
+        {/* Cinema Insights Table */}
+        <CinemaInsightsTable />
       </div>
     </section>
   )
