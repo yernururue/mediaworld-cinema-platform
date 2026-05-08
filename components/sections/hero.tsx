@@ -1,6 +1,7 @@
 "use client"
 
 import { useEffect, useRef, useState } from "react"
+import Link from "next/link"
 import { ImageReveal } from "@/components/ui/image-reveal"
 
 export function HeroSection() {
@@ -120,13 +121,13 @@ export function HeroSection() {
                 Your gateway to blockbuster hits, indie gems, and AI-powered recommendations tailored to your taste.
               </p>
               <div className="pt-2">
-                <a 
+                <Link 
                   href="#featured"
                   className="inline-flex items-center gap-3 group text-sm tracking-[0.1em] uppercase text-foreground"
                 >
                   <span className="bg-primary my-0 py-3 text-primary-foreground px-4 rounded-sm hover:bg-primary/90 transition-colors">Browse Collection</span>
                   
-                </a>
+                </Link>
               </div>
             </div>
           </div>

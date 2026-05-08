@@ -5,7 +5,9 @@ import Image from "next/image"
 import { ImageReveal } from "@/components/ui/image-reveal"
 import { CinemaInsightsTable } from "@/components/sections/cinema-table"
 
-export function DishesSection() {
+import { TmdbMovie } from "@/lib/tmdb"
+
+export function DishesSection({ movies = [] }: { movies?: TmdbMovie[] }) {
   const [isVisible, setIsVisible] = useState(false)
   const [activeDish, setActiveDish] = useState(0)
   const sectionRef = useRef<HTMLElement>(null)
@@ -27,38 +29,50 @@ export function DishesSection() {
     return () => observer.disconnect()
   }, [])
 
-  const dishes = [
-    {
-      id: "dune2",
-      name: "Dune: Part Two",
-      subtitle: "Directed by Denis Villeneuve",
-      season: "2024",
-      description: "Paul Atreides unites with the Fremen to wage war against House Harkonnen. An epic sci-fi masterpiece with breathtaking visuals, Hans Zimmer's thunderous score, and stellar performances.",
-      technique: "Action, Adventure, Sci-Fi",
-      image: "/images/dish-2.jpg",
-      awards: ["Critics Choice 2024"]
-    },
-    {
-      id: "oppenheimer",
-      name: "Oppenheimer",
-      subtitle: "Directed by Christopher Nolan",
-      season: "2023",
-      description: "The story of J. Robert Oppenheimer and the Manhattan Project. A gripping historical drama that explores the moral complexities of creating the atomic bomb. Oscar winner for Best Picture.",
-      technique: "Biography, Drama, History",
-      image: "/images/dish-1.jpg",
-      awards: ["Academy Award Winner"]
-    },
-    {
-      id: "everything",
-      name: "Everything Everywhere All at Once",
-      subtitle: "Directed by the Daniels",
-      season: "2022",
-      description: "A laundromat owner discovers she can access parallel universe versions of herself. A wildly inventive multiverse adventure that blends action, comedy, and heart in equal measure.",
-      technique: "Action, Comedy, Fantasy",
-      image: "/images/dish-3.jpg",
-      awards: []
-    }
-  ]
+  // Map TMDB movies to the internal display format
+  const displayMovies = movies.length > 0 
+    ? movies.slice(0, 3).map(m => ({
+        id: m.id,
+        name: m.title,
+        subtitle: `Rating: ${m.vote_average.toFixed(1)}/10`,
+        season: m.release_date.split('-')[0],
+        description: m.overview,
+        technique: "Featured Selection",
+        image: m.poster_path ? `https://image.tmdb.org/t/p/original/${m.poster_path}` : "/placeholder.svg",
+        awards: m.vote_average > 8 ? ["Top Rated Selection"] : []
+      }))
+    : [
+        {
+          id: "dune2",
+          name: "Dune: Part Two",
+          subtitle: "Directed by Denis Villeneuve",
+          season: "2024",
+          description: "Paul Atreides unites with the Fremen to wage war against House Harkonnen. An epic sci-fi masterpiece with breathtaking visuals, Hans Zimmer's thunderous score, and stellar performances.",
+          technique: "Action, Adventure, Sci-Fi",
+          image: "/images/dish-2.jpg",
+          awards: ["Critics Choice 2024"]
+        },
+        {
+          id: "oppenheimer",
+          name: "Oppenheimer",
+          subtitle: "Directed by Christopher Nolan",
+          season: "2023",
+          description: "The story of J. Robert Oppenheimer and the Manhattan Project. A gripping historical drama that explores the moral complexities of creating the atomic bomb. Oscar winner for Best Picture.",
+          technique: "Biography, Drama, History",
+          image: "/images/dish-1.jpg",
+          awards: ["Academy Award Winner"]
+        },
+        {
+          id: "everything",
+          name: "Everything Everywhere All at Once",
+          subtitle: "Directed by the Daniels",
+          season: "2022",
+          description: "A laundromat owner discovers she can access parallel universe versions of herself. A wildly inventive multiverse adventure that blends action, comedy, and heart in equal measure.",
+          technique: "Action, Comedy, Fantasy",
+          image: "/images/dish-3.jpg",
+          awards: []
+        }
+      ]
 
   return (
     <section 
@@ -106,7 +120,7 @@ export function DishesSection() {
           {/* Main Image */}
           <div className="lg:col-span-8 relative">
             <div className="relative aspect-[4/3] overflow-hidden bg-background">
-              {dishes.map((dish, index) => (
+              {displayMovies.map((dish, index) => (
                 <div
                   key={dish.id}
                   className="absolute inset-0 transition-opacity duration-700"
@@ -137,7 +151,7 @@ export function DishesSection() {
               {/* Year Badge */}
               <div className="absolute top-6 right-6 bg-background/90 backdrop-blur-sm px-4 py-2">
                 <span className="text-xs tracking-[0.2em] uppercase text-muted-foreground">
-                  Released {dishes[activeDish].season}
+                  Released {displayMovies[activeDish].season}
                 </span>
               </div>
             </div>
@@ -145,7 +159,7 @@ export function DishesSection() {
 
           {/* Dish Info Cards */}
           <div className="lg:col-span-4 space-y-4">
-            {dishes.map((dish, index) => (
+            {displayMovies.map((dish, index) => (
               <button
                 key={dish.id}
                 type="button"

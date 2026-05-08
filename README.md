@@ -14,10 +14,10 @@ The platform serves as both a marketing front-end and a gateway into a full-feat
 
 ## 🎯 Goals
 
-- **Premium First Impression** — A visually stunning landing page that immediately communicates quality and exclusivity
+- **TMDB Dynamic Data** — Centralized `lib/tmdb.ts` fetcher with caching (`revalidate: 3600`) and live trending movie data integration
+- **Profile Optimization** — Zero-waterfall architecture for `/profile` using combined Supabase queries and `loading.tsx` for instant navigation
+- **Refined Header UX** — Immediate navigation to `/profile` on avatar click, with secondary actions (Settings, Sign Out) moved to a discrete chevron dropdown
 - **AI-Powered Discovery** — Showcase a four-step AI assistant that learns user preferences and curates personalized film recommendations
-- **Featured Film Curation** — Surface must-watch films with rich detail cards, genre tags, awards highlights, and release metadata
-- **Full-Page Storytelling** — Guide visitors through the MediaWorld brand story via Vision, Philosophy, AI Experience, and Featured Films sections
 - **Responsive & Accessible** — Mobile-first layout with a collapsible navigation menu and keyboard-accessible interactive elements
 - **Performance Optimized** — Intersection Observer–driven animations, passive scroll listeners, and Next.js image optimization
 
@@ -160,7 +160,7 @@ mediaworld/
 │   ├── layout.tsx           # Root layout, fonts, metadata, analytics
 │   └── page.tsx             # Home page — composes all sections
 ├── components/
-│   ├── header.tsx           # Fixed navigation header
+│   ├── header.tsx           # Fixed navigation header (now with avatar/dropdown)
 │   ├── footer.tsx           # Site footer
 │   ├── theme-provider.tsx   # next-themes dark/light mode wrapper
 │   └── sections/
@@ -168,11 +168,12 @@ mediaworld/
 │       ├── vision.tsx       # Brand vision section
 │       ├── philosophy.tsx   # Brand philosophy section
 │       ├── experience.tsx   # AI assistant 4-step accordion
-│       ├── dishes.tsx       # Featured films showcase
+│       ├── dishes.tsx       # Featured films showcase (Dynamic TMDB data)
 │       ├── projects.tsx     # (Reserved) Featured projects layout
 │       └── contact.tsx      # Contact & newsletter form
-│   └── ui/                  # shadcn/ui + custom primitives (58 components)
 ├── lib/
+│   ├── supabase/            # Supabase client & server utilities
+│   ├── tmdb.ts              # TMDB API core layer (centralized fetcher)
 │   └── utils.ts             # `cn()` class merge utility
 ├── public/
 │   └── images/              # Hero, film, and experience images

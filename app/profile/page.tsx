@@ -20,19 +20,18 @@ export default async function ProfilePage() {
 
   if (!user) redirect("/login")
 
-  // ── Profile ────────────────────────────────────────────────────────────
-  const { data: profile } = await supabase
-    .from("profiles")
-    .select("id, username, display_name, avatar_url, bio, favorite_genres, created_at")
-    .eq("id", user.id)
-    .single()
-
-  // ── Stats & Content (parallel) ─────────────────────────────────────────
+  // ── Profile, Stats & Content (parallel) ─────────────────────────────────
   const [
+    { data: profile },
     { data: favoritesRaw, count: favoritesCount },
     { data: watchHistoryRaw, count: watchedCount },
     { data: reviewsRaw, count: reviewsCount },
   ] = await Promise.all([
+    supabase
+      .from("profiles")
+      .select("id, username, display_name, avatar_url, bio, favorite_genres, created_at")
+      .eq("id", user.id)
+      .single(),
     supabase
       .from("user_favorites")
       .select(
