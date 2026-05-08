@@ -3,10 +3,12 @@
 import { useState, useEffect } from "react"
 import Link from "next/link"
 import { cn } from "@/lib/utils"
+import { User } from "@supabase/supabase-js"
 
 import { CinematicPlayer } from "@/components/ui/cinematic-player"
+import { AuthButton } from "@/components/ui/auth-button"
 
-export function Header() {
+export function Header({ user }: { user?: User | null }) {
   const [isScrolled, setIsScrolled] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
 
@@ -62,24 +64,10 @@ export function Header() {
             ))}
           </nav>
 
-          {/* Right Section: Music Player + CTA */}
+          {/* Right Section: Music Player + Auth */}
           <div className="hidden lg:flex items-center gap-8">
             <CinematicPlayer />
-            
-            <Link
-              href="#contact"
-              className="inline-flex items-center gap-2 px-6 py-3 text-sm tracking-[0.1em] uppercase text-primary-foreground bg-primary hover:bg-primary/90 transition-all duration-300"
-            >
-              <span>Explore</span>
-              <svg 
-                className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" 
-                fill="none" 
-                viewBox="0 0 24 24" 
-                stroke="currentColor"
-              >
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-              </svg>
-            </Link>
+            <AuthButton user={user} />
           </div>
 
           {/* Mobile Menu Button */}
