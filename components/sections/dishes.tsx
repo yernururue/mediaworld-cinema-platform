@@ -2,8 +2,10 @@
 
 import { useEffect, useRef, useState } from "react"
 import Image from "next/image"
+import { motion, AnimatePresence } from "framer-motion"
 import { ImageReveal } from "@/components/ui/image-reveal"
 import { CinemaInsightsTable } from "@/components/sections/cinema-table"
+import { MovieFilter } from "@/components/movie-filter"
 
 import { TmdbMovie } from "@/lib/tmdb"
 
@@ -28,6 +30,11 @@ export function DishesSection({ movies = [] }: { movies?: TmdbMovie[] }) {
 
     return () => observer.disconnect()
   }, [])
+
+  // Reset active dish when movies change
+  useEffect(() => {
+    setActiveDish(0)
+  }, [movies])
 
   // Map TMDB movies to the internal display format
   const displayMovies = movies.length > 0 
@@ -98,9 +105,9 @@ export function DishesSection({ movies = [] }: { movies?: TmdbMovie[] }) {
             </div>
           </div>
 
-          <div className="lg:col-span-10">
+          <div className="lg:col-span-10 flex flex-col md:flex-row md:items-end justify-between gap-10">
             <h2 
-              className="font-serif text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-semibold leading-[1.1] tracking-[-0.01em] text-foreground max-w-4xl text-pretty"
+              className="font-serif text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-semibold leading-[1.1] tracking-[-0.01em] text-foreground max-w-2xl text-pretty"
               style={{
                 opacity: isVisible ? 1 : 0,
                 transform: isVisible ? "translateY(0)" : "translateY(40px)",
@@ -112,11 +119,27 @@ export function DishesSection({ movies = [] }: { movies?: TmdbMovie[] }) {
             >
               Must-watch films everyone is talking about
             </h2>
+            <div 
+              className="pb-2"
+              style={{
+                opacity: isVisible ? 1 : 0,
+                transform: isVisible ? "translateY(0)" : "translateY(20px)",
+                transition: "all 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.3s"
+              }}
+            >
+              <MovieFilter />
+            </div>
           </div>
         </div>
 
         {/* Dishes Showcase */}
-        <div className="grid lg:grid-cols-12 gap-8 lg:gap-12">
+        <motion.div 
+          key={movies.map(m => m.id).join(',')}
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: isVisible ? 1 : 0, y: isVisible ? 0 : 20 }}
+          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay: 0.2 }}
+          className="grid lg:grid-cols-12 gap-8 lg:gap-12"
+        >
           {/* Main Image */}
           <div className="lg:col-span-8 relative">
             <div className="relative aspect-[4/3] overflow-hidden bg-background">
@@ -231,7 +254,7 @@ export function DishesSection({ movies = [] }: { movies?: TmdbMovie[] }) {
               </button>
             ))}
           </div>
-        </div>
+        </motion.div>
 
         {/* Bottom Note */}
         <div 

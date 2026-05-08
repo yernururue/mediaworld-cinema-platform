@@ -7,12 +7,28 @@ import { ExperienceSection } from "@/components/sections/experience"
 import { DishesSection } from "@/components/sections/dishes"
 import { ContactSection } from "@/components/sections/contact"
 import { Footer } from "@/components/footer"
-import { getTrending } from "@/lib/tmdb"
+import { getTrendingMovies, getMonthlyTop } from "@/lib/tmdb"
 
-export default async function Home() {
+interface PageProps {
+  searchParams: Promise<{ time?: string }>
+}
+
+export default async function Home({ searchParams }: PageProps) {
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
-  const movies = await getTrending('day');
+  const [{ data: { user } }, params] = await Promise.all([
+    supabase.auth.getUser(),
+    searchParams
+  ]);
+
+  const time = params.time || 'day';
+  
+  let movies;
+  if (time === 'month') {
+    movies = await getMonthlyTop();
+  } else {
+    const window = (time === 'week' || time === 'day') ? time : 'day';
+    movies = await getTrendingMovies(window);
+  }
 
   return (
     <main className="min-h-screen bg-background">
@@ -27,3 +43,4 @@ export default async function Home() {
     </main>
   )
 }
+

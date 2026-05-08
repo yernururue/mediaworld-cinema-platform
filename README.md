@@ -14,7 +14,9 @@ The platform serves as both a marketing front-end and a gateway into a full-feat
 
 ## 🎯 Goals
 
-- **TMDB Dynamic Data** — Centralized `lib/tmdb.ts` fetcher with caching (`revalidate: 3600`) and live trending movie data integration
+- **TMDB Dynamic Data** — Centralized `lib/tmdb.ts` fetcher with Bearer Token auth, caching (`revalidate: 3600`), and live trending movie data integration
+- **Time-Based Filtering** — Dynamic "Today", "This Week", and "This Month" filters for the featured movie grid with instant URL-driven state
+- **Cinematic Transitions** — Weightless fade-in and slide-up animations using `framer-motion` for a premium, alive interface
 - **Profile Optimization** — Zero-waterfall architecture for `/profile` using combined Supabase queries and `loading.tsx` for instant navigation
 - **Refined Header UX** — Immediate navigation to `/profile` on avatar click, with secondary actions (Settings, Sign Out) moved to a discrete chevron dropdown
 - **AI-Powered Discovery** — Showcase a four-step AI assistant that learns user preferences and curates personalized film recommendations
@@ -48,10 +50,9 @@ The platform serves as both a marketing front-end and a gateway into a full-feat
 - Expandable step detail panels with feature bullet lists
 
 ### 🎥 Featured Films Section (`#featured`)
-- Interactive film showcase with three curated titles:
-  - *Dune: Part Two* (2024) — Action / Adventure / Sci-Fi
-  - *Oppenheimer* (2023) — Biography / Drama / History
-  - *Everything Everywhere All at Once* (2022) — Action / Comedy / Fantasy
+- Interactive film showcase with real-time data from TMDB:
+  - **Dynamic Filters** — Today, This Week, This Month (URL-synced)
+  - **Cinematic Transitions** — Smooth `framer-motion` fade-in when switching filters
 - Awards badges, genre tags, director credits, release year labels
 - Smooth image crossfade transitions between selections
 
@@ -99,7 +100,7 @@ The platform serves as both a marketing front-end and a gateway into a full-feat
 | Charts | Recharts |
 | Fonts | Inter, Playfair Display, JetBrains Mono (Google Fonts) |
 | Analytics | Vercel Analytics |
-| Animations | CSS transitions + Intersection Observer |
+| Animations | CSS transitions + `framer-motion` + Intersection Observer |
 | Images | Next.js `<Image>` with custom `ImageReveal` component |
 
 ---
