@@ -27,36 +27,17 @@ export default async function ProfilePage() {
     .eq("id", user.id)
     .single()
 
-  // ── Stats (parallel) ───────────────────────────────────────────────────
+  // ── Stats & Content (parallel) ─────────────────────────────────────────
   const [
-    { count: watchedCount },
-    { count: favoritesCount },
-    { count: reviewsCount },
-  ] = await Promise.all([
-    supabase
-      .from("user_watch_history")
-      .select("*", { count: "exact", head: true })
-      .eq("user_id", user.id),
-    supabase
-      .from("user_favorites")
-      .select("*", { count: "exact", head: true })
-      .eq("user_id", user.id),
-    supabase
-      .from("movie_reviews")
-      .select("*", { count: "exact", head: true })
-      .eq("user_id", user.id),
-  ])
-
-  // ── Content (parallel) ─────────────────────────────────────────────────
-  const [
-    { data: favoritesRaw },
-    { data: watchHistoryRaw },
-    { data: reviewsRaw },
+    { data: favoritesRaw, count: favoritesCount },
+    { data: watchHistoryRaw, count: watchedCount },
+    { data: reviewsRaw, count: reviewsCount },
   ] = await Promise.all([
     supabase
       .from("user_favorites")
       .select(
-        "id, movie_id, created_at, movies(id, title, poster_url, release_year, rating)"
+        "id, movie_id, created_at, movies(id, title, poster_url, release_year, rating)",
+        { count: "exact" }
       )
       .eq("user_id", user.id)
       .order("created_at", { ascending: false })
@@ -64,14 +45,15 @@ export default async function ProfilePage() {
     supabase
       .from("user_watch_history")
       .select(
-        "id, movie_id, watched_at, progress_percent, completed, movies(id, title, poster_url, release_year)"
+        "id, movie_id, watched_at, progress_percent, completed, movies(id, title, poster_url, release_year)",
+        { count: "exact" }
       )
       .eq("user_id", user.id)
       .order("watched_at", { ascending: false })
       .limit(8),
     supabase
       .from("movie_reviews")
-      .select("id, rating, review_text, created_at, movies(id, title, release_year)")
+      .select("id, rating, review_text, created_at, movies(id, title, release_year)", { count: "exact" })
       .eq("user_id", user.id)
       .order("created_at", { ascending: false })
       .limit(6),
