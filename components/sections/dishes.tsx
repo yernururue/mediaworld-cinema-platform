@@ -7,7 +7,55 @@ import { ImageReveal } from "@/components/ui/image-reveal"
 import { CinemaInsightsTable } from "@/components/sections/cinema-table"
 import { MovieFilter } from "@/components/movie-filter"
 
-import { TmdbMovie } from "@/lib/tmdb"
+import { TmdbMovie, getTmdbImageUrl } from "@/lib/tmdb"
+
+/** Mock data for when TMDB is unavailable */
+const FALLBACK_MOVIES = [
+  {
+    id: "dune2",
+    name: "Dune: Part Two",
+    subtitle: "Directed by Denis Villeneuve",
+    season: "2024",
+    description: "Paul Atreides unites with the Fremen to wage war against House Harkonnen. An epic sci-fi masterpiece with breathtaking visuals, Hans Zimmer's thunderous score, and stellar performances.",
+    technique: "Action, Adventure, Sci-Fi",
+    image: "/images/dish-2.jpg",
+    awards: ["Critics Choice 2024"]
+  },
+  {
+    id: "oppenheimer",
+    name: "Oppenheimer",
+    subtitle: "Directed by Christopher Nolan",
+    season: "2023",
+    description: "The story of J. Robert Oppenheimer and the Manhattan Project. A gripping historical drama that explores the moral complexities of creating the atomic bomb. Oscar winner for Best Picture.",
+    technique: "Biography, Drama, History",
+    image: "/images/dish-1.jpg",
+    awards: ["Academy Award Winner"]
+  },
+  {
+    id: "everything",
+    name: "Everything Everywhere All at Once",
+    subtitle: "Directed by the Daniels",
+    season: "2022",
+    description: "A laundromat owner discovers she can access parallel universe versions of herself. A wildly inventive multiverse adventure that blends action, comedy, and heart in equal measure.",
+    technique: "Action, Comedy, Fantasy",
+    image: "/images/dish-3.jpg",
+    awards: []
+  }
+];
+
+/** Maps a TMDB movie object to the local UI 'Dish' format */
+function mapTmdbToDish(movie: TmdbMovie) {
+  return {
+    id: movie.id,
+    name: movie.title,
+    subtitle: `Rating: ${movie.vote_average.toFixed(1)}/10`,
+    season: movie.release_date.split('-')[0],
+    description: movie.overview,
+    technique: "Featured Selection",
+    image: getTmdbImageUrl(movie.poster_path),
+    awards: movie.vote_average > 8 ? ["Top Rated Selection"] : []
+  };
+}
 
 export function DishesSection({ movies = [] }: { movies?: TmdbMovie[] }) {
   const [isVisible, setIsVisible] = useState(false)
@@ -38,48 +86,8 @@ export function DishesSection({ movies = [] }: { movies?: TmdbMovie[] }) {
 
   // Map TMDB movies to the internal display format
   const displayMovies = movies.length > 0 
-    ? movies.slice(0, 3).map(m => ({
-        id: m.id,
-        name: m.title,
-        subtitle: `Rating: ${m.vote_average.toFixed(1)}/10`,
-        season: m.release_date.split('-')[0],
-        description: m.overview,
-        technique: "Featured Selection",
-        image: m.poster_path ? `https://image.tmdb.org/t/p/original/${m.poster_path}` : "/placeholder.svg",
-        awards: m.vote_average > 8 ? ["Top Rated Selection"] : []
-      }))
-    : [
-        {
-          id: "dune2",
-          name: "Dune: Part Two",
-          subtitle: "Directed by Denis Villeneuve",
-          season: "2024",
-          description: "Paul Atreides unites with the Fremen to wage war against House Harkonnen. An epic sci-fi masterpiece with breathtaking visuals, Hans Zimmer's thunderous score, and stellar performances.",
-          technique: "Action, Adventure, Sci-Fi",
-          image: "/images/dish-2.jpg",
-          awards: ["Critics Choice 2024"]
-        },
-        {
-          id: "oppenheimer",
-          name: "Oppenheimer",
-          subtitle: "Directed by Christopher Nolan",
-          season: "2023",
-          description: "The story of J. Robert Oppenheimer and the Manhattan Project. A gripping historical drama that explores the moral complexities of creating the atomic bomb. Oscar winner for Best Picture.",
-          technique: "Biography, Drama, History",
-          image: "/images/dish-1.jpg",
-          awards: ["Academy Award Winner"]
-        },
-        {
-          id: "everything",
-          name: "Everything Everywhere All at Once",
-          subtitle: "Directed by the Daniels",
-          season: "2022",
-          description: "A laundromat owner discovers she can access parallel universe versions of herself. A wildly inventive multiverse adventure that blends action, comedy, and heart in equal measure.",
-          technique: "Action, Comedy, Fantasy",
-          image: "/images/dish-3.jpg",
-          awards: []
-        }
-      ]
+    ? movies.slice(0, 3).map(mapTmdbToDish)
+    : FALLBACK_MOVIES;
 
   return (
     <section 

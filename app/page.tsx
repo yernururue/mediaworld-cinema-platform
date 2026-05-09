@@ -7,7 +7,7 @@ import { ExperienceSection } from "@/components/sections/experience"
 import { DishesSection } from "@/components/sections/dishes"
 import { ContactSection } from "@/components/sections/contact"
 import { Footer } from "@/components/footer"
-import { getTrendingMovies, getMonthlyTop } from "@/lib/tmdb"
+import { getMoviesByTime } from "@/lib/tmdb"
 
 interface PageProps {
   searchParams: Promise<{ time?: string }>
@@ -20,15 +20,7 @@ export default async function Home({ searchParams }: PageProps) {
     searchParams
   ]);
 
-  const time = params.time || 'day';
-  
-  let movies;
-  if (time === 'month') {
-    movies = await getMonthlyTop();
-  } else {
-    const window = (time === 'week' || time === 'day') ? time : 'day';
-    movies = await getTrendingMovies(window);
-  }
+  const movies = await getMoviesByTime(params.time);
 
   return (
     <main className="min-h-screen bg-background">

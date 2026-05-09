@@ -3,29 +3,25 @@ import { createClient } from "@/lib/supabase/server"
 import { Header } from "@/components/header"
 import { ProfileTabs } from "@/components/profile/profile-tabs"
 import type { Metadata } from "next"
+import type { FavoriteMovie, WatchHistoryItem, ReviewItem, ProfileData } from "@/components/profile/profile-tabs"
 
 export const metadata: Metadata = {
   title: "My Profile — MediaWorld",
-  description:
-    "Your cinematic profile — collection, watch history, and reviews.",
+  description: "Your cinematic profile — collection, watch history, and reviews.",
 }
 
 export default async function ProfilePage() {
   const supabase = await createClient()
 
-  // ── Auth guard ─────────────────────────────────────────────────────────
-  const {
-    data: { user },
-  } = await supabase.auth.getUser()
-
+  const { data: { user } } = await supabase.auth.getUser()
   if (!user) redirect("/login")
 
-  // ── Profile, Stats & Content (parallel) ─────────────────────────────────
+  // Fetch all profile data in parallel for optimal performance
   const [
-    { data: profile },
-    { data: favoritesRaw, count: favoritesCount },
-    { data: watchHistoryRaw, count: watchedCount },
-    { data: reviewsRaw, count: reviewsCount },
+    profileRes,
+    favoritesRes,
+    historyRes,
+    reviewsRes,
   ] = await Promise.all([
     supabase
       .from("profiles")
@@ -34,19 +30,13 @@ export default async function ProfilePage() {
       .single(),
     supabase
       .from("user_favorites")
-      .select(
-        "id, movie_id, created_at, movies(id, title, poster_url, release_year, rating)",
-        { count: "exact" }
-      )
+      .select("id, movie_id, created_at, movies(id, title, poster_url, release_year, rating)", { count: "exact" })
       .eq("user_id", user.id)
       .order("created_at", { ascending: false })
       .limit(12),
     supabase
       .from("user_watch_history")
-      .select(
-        "id, movie_id, watched_at, progress_percent, completed, movies(id, title, poster_url, release_year)",
-        { count: "exact" }
-      )
+      .select("id, movie_id, watched_at, progress_percent, completed, movies(id, title, poster_url, release_year)", { count: "exact" })
       .eq("user_id", user.id)
       .order("watched_at", { ascending: false })
       .limit(8),
@@ -62,21 +52,18 @@ export default async function ProfilePage() {
     <>
       <Header user={user} />
       <ProfileTabs
-        profile={profile}
+        profile={profileRes.data as ProfileData | null}
         email={user.email ?? ""}
         stats={{
-          watched: watchedCount ?? 0,
-          favorites: favoritesCount ?? 0,
-          reviews: reviewsCount ?? 0,
+          watched: historyRes.count ?? 0,
+          favorites: favoritesRes.count ?? 0,
+          reviews: reviewsRes.count ?? 0,
         }}
-        // Supabase returns joined rows as arrays — cast safely for our typed props
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        favorites={(favoritesRaw ?? []) as any[]}
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        watchHistory={(watchHistoryRaw ?? []) as any[]}
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        reviews={(reviewsRaw ?? []) as any[]}
+        favorites={(favoritesRes.data ?? []) as unknown as FavoriteMovie[]}
+        watchHistory={(historyRes.data ?? []) as unknown as WatchHistoryItem[]}
+        reviews={(reviewsRes.data ?? []) as unknown as ReviewItem[]}
       />
     </>
   )
 }
+
