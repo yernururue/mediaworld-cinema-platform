@@ -21,7 +21,7 @@ export function Header({ user }: { user?: User | null }) {
   }, [])
 
   const navItems = [
-    { label: "Movies", href: "#movies" },
+    { label: "Movies", href: "/movies" },
     { label: "Top Rated", href: "#top-rated" },
     { label: "AI Assistant", href: "#ai-assistant" },
     { label: "Featured", href: "#featured" },

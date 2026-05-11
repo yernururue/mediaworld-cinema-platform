@@ -18,7 +18,8 @@ The platform serves as both a marketing front-end and a gateway into a full-feat
 - **Time-Based Filtering** — Dynamic "Today", "This Week", and "This Month" filters for the featured movie grid with instant URL-driven state
 - **Cinematic Transitions** — Weightless fade-in and slide-up animations using `framer-motion` for a premium, alive interface
 - **Profile Optimization** — Zero-waterfall architecture for `/profile` using combined Supabase queries and `loading.tsx` for instant navigation
-- **Refined Header UX** — Immediate navigation to `/profile` on avatar click, with secondary actions (Settings, Sign Out) moved to a discrete chevron dropdown
+- **Refined Header UX** — Immediate navigation to `/profile` on avatar click, and a dedicated `/movies` catalog link
+- **Full Film Catalog** — Dedicated `/movies` landing page with a responsive, animated movie grid and premium hover states
 - **AI-Powered Discovery** — Showcase a four-step AI assistant that learns user preferences and curates personalized film recommendations
 - **Responsive & Accessible** — Mobile-first layout with a collapsible navigation menu and keyboard-accessible interactive elements
 - **Secure Authentication** — Email and password validation layer using **Zod** (email format verification + minimum 8-character password requirement)
@@ -83,7 +84,8 @@ The platform serves as both a marketing front-end and a gateway into a full-feat
 | 3 | Philosophy | `#philosophy` | `PhilosophySection` |
 | 4 | AI Experience | `#ai-assistant` | `ExperienceSection` |
 | 5 | Featured Films | `#featured` | `DishesSection` |
-| 6 | Contact | `#contact` | `ContactSection` |
+| 6 | Film Catalog | `/movies` | `MoviesPage` |
+| 7 | Contact | `#contact` | `ContactSection` |
 
 ---
 
@@ -160,6 +162,7 @@ mediaworld/
 ├── app/
 │   ├── globals.css          # Global styles & CSS custom properties
 │   ├── layout.tsx           # Root layout, fonts, metadata, analytics
+│   ├── movies/              # Film catalog landing page
 │   └── page.tsx             # Home page — composes all sections
 ├── components/
 │   ├── header.tsx           # Fixed navigation header (now with avatar/dropdown)
@@ -171,6 +174,7 @@ mediaworld/
 │       ├── philosophy.tsx   # Brand philosophy section
 │       ├── experience.tsx   # AI assistant 4-step accordion
 │       ├── dishes.tsx       # Featured films showcase (Dynamic TMDB data)
+│       ├── movie-catalog-grid.tsx # Premium grid for /movies catalog
 │       ├── projects.tsx     # (Reserved) Featured projects layout
 │       └── contact.tsx      # Contact & newsletter form
 ├── lib/
