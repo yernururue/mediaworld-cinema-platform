@@ -120,37 +120,31 @@ export function ContactSection() {
                   }}
                 >
                   <div className="space-y-1">
-                    <span className="text-xs tracking-[0.2em] uppercase text-muted-foreground">Headquarters</span>
+                    <span className="text-xs tracking-[0.2em] uppercase text-muted-foreground">Lead Developer</span>
                     <p className="text-foreground">
-                      1600 Amphitheatre Parkway<br />
-                      Mountain View, CA 94043
-                    </p>
-                  </div>
-                  
-                  <div className="space-y-1">
-                    <span className="text-xs tracking-[0.2em] uppercase text-muted-foreground">Support</span>
-                    <p className="text-foreground">
-                      <a href="mailto:support@mediaworld.com" className="hover:text-primary transition-colors duration-300">
-                        support@mediaworld.com
+                      Ағламханқызы Бибинұр<br />
+                      <a href="mailto:bibinur.aglamkhankyzy@narxoz.kz" className="text-sm text-muted-foreground hover:text-primary transition-colors duration-300">
+                        bibinur.aglamkhankyzy@narxoz.kz
                       </a>
                     </p>
                   </div>
                   
                   <div className="space-y-1">
-                    <span className="text-xs tracking-[0.2em] uppercase text-muted-foreground">Press</span>
+                    <span className="text-xs tracking-[0.2em] uppercase text-muted-foreground">Platform Architect</span>
                     <p className="text-foreground">
-                      <a href="mailto:press@mediaworld.com" className="hover:text-primary transition-colors duration-300">
-                        press@mediaworld.com
+                      Мыңбаев Айбол<br />
+                      <a href="mailto:aibol.mynbayev@narxoz.kz" className="text-sm text-muted-foreground hover:text-primary transition-colors duration-300">
+                        aibol.mynbayev@narxoz.kz
                       </a>
                     </p>
                   </div>
 
-                  <div className="space-y-1">
+                  <div className="space-y-1 pt-4">
                     <span className="text-xs tracking-[0.2em] uppercase text-muted-foreground">Availability</span>
-                    <p className="text-foreground">
-                      24/7 Streaming<br />
-                      Support: Mon-Fri 9AM-9PM<br />
-                      <span className="text-muted-foreground text-sm">All timezones supported</span>
+                    <p className="text-foreground text-sm">
+                      Narxoz University<br />
+                      Development Phase 2<br />
+                      <span className="text-muted-foreground italic">Cinematic Experience Project</span>
                     </p>
                   </div>
                 </div>

@@ -21,6 +21,7 @@ The platform serves as both a marketing front-end and a gateway into a full-feat
 - **Refined Header UX** — Immediate navigation to `/profile` on avatar click, with secondary actions (Settings, Sign Out) moved to a discrete chevron dropdown
 - **AI-Powered Discovery** — Showcase a four-step AI assistant that learns user preferences and curates personalized film recommendations
 - **Responsive & Accessible** — Mobile-first layout with a collapsible navigation menu and keyboard-accessible interactive elements
+- **Secure Authentication** — Email and password validation layer using **Zod** (email format verification + minimum 8-character password requirement)
 - **Performance Optimized** — Intersection Observer–driven animations, passive scroll listeners, and Next.js image optimization
 
 ---

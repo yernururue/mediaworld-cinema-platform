@@ -57,32 +57,30 @@ export function Footer() {
             </nav>
           </div>
 
-          {/* Contact Quick */}
+          {/* Creators */}
           <div className="lg:col-span-4">
             <h4 className="text-xs tracking-[0.2em] uppercase text-muted-foreground mb-6">
-              Get in Touch
+              Developed By
             </h4>
-            <div className="space-y-4">
-              <p className="text-sm text-foreground/70">
-                1600 Amphitheatre Parkway<br />
-                Mountain View, CA 94043
-              </p>
-              <p className="text-sm">
+            <div className="space-y-6">
+              <div className="space-y-1">
+                <p className="text-sm font-medium text-foreground">Ағламханқызы Бибинұр</p>
                 <a 
-                  href="mailto:support@mediaworld.com" 
-                  className="text-foreground hover:text-primary transition-colors duration-300"
+                  href="mailto:bibinur.aglamkhankyzy@narxoz.kz" 
+                  className="text-xs text-muted-foreground hover:text-primary transition-colors duration-300"
                 >
-                  support@mediaworld.com
+                  bibinur.aglamkhankyzy@narxoz.kz
                 </a>
-              </p>
-              <p className="text-sm">
+              </div>
+              <div className="space-y-1">
+                <p className="text-sm font-medium text-foreground">Мыңбаев Айбол</p>
                 <a 
-                  href="mailto:press@mediaworld.com" 
-                  className="text-foreground/70 hover:text-foreground transition-colors duration-300"
+                  href="mailto:aibol.mynbayev@narxoz.kz" 
+                  className="text-xs text-muted-foreground hover:text-primary transition-colors duration-300"
                 >
-                  press@mediaworld.com
+                  aibol.mynbayev@narxoz.kz
                 </a>
-              </p>
+              </div>
             </div>
           </div>
         </div>
