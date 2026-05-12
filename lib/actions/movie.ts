@@ -3,6 +3,7 @@
 import { revalidatePath } from 'next/cache'
 import { createClient } from '@/lib/supabase/server'
 import { createAdminClient } from '@/lib/supabase/admin'
+import { z } from 'zod'
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -22,6 +23,17 @@ type ActionResult = { success: true; localId: string } | { error: string }
 type ToggleResult =
   | { success: true; isFavorited: boolean }
   | { error: string }
+
+const tmdbMovieSchema = z.object({
+  id: z.number(),
+  title: z.string(),
+  overview: z.string().nullable().optional(),
+  poster_path: z.string().nullable().optional(),
+  backdrop_path: z.string().nullable().optional(),
+  release_date: z.string().nullable().optional(),
+  vote_average: z.number().nullable().optional(),
+  genre_ids: z.array(z.number()).optional(),
+})
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
@@ -52,6 +64,12 @@ export async function ensureMovieCached(
   tmdbMovie: TmdbMovie
 ): Promise<ActionResult> {
   try {
+    // Validate input
+    const validation = tmdbMovieSchema.safeParse(tmdbMovie)
+    if (!validation.success) {
+      return { error: `Invalid movie data: ${validation.error.errors[0].message}` }
+    }
+
     const admin = createAdminClient()
 
     // 1. Check if the movie already exists by its TMDB ID
@@ -107,6 +125,12 @@ export async function ensureMovieCached(
  */
 export async function toggleFavorite(tmdbMovie: TmdbMovie): Promise<ToggleResult> {
   try {
+    // Validate input
+    const validation = tmdbMovieSchema.safeParse(tmdbMovie)
+    if (!validation.success) {
+      return { error: `Invalid movie data: ${validation.error.errors[0].message}` }
+    }
+
     const supabase = await createClient()
 
     // 1. Verify the user is authenticated
