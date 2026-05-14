@@ -16,8 +16,15 @@ export function CinematicPlayer() {
   return (
     <div className="flex items-center gap-6 px-5 h-10 bg-white/5 backdrop-blur-xl border border-white/5 rounded-full shadow-2xl">
       {/* Track Title */}
-      <div className="text-[10px] font-mono tracking-widest uppercase text-muted-foreground/80 truncate max-w-[120px] select-none">
-        {currentTrack.name}
+      <div className="group relative flex items-center min-w-[120px]">
+        <div className="text-[10px] font-mono tracking-widest uppercase text-muted-foreground/80 truncate w-full select-none transition-all duration-500 group-hover:opacity-0 group-hover:translate-y-[-4px]">
+          {currentTrack.name}
+        </div>
+        {(currentTrack.movie || currentTrack.artist) && (
+          <div className="absolute inset-0 flex items-center text-[8px] font-mono tracking-[0.2em] uppercase text-accent opacity-0 group-hover:opacity-100 transition-all duration-500 translate-y-[4px] group-hover:translate-y-0 truncate w-full select-none pointer-events-none">
+            {currentTrack.movie}{currentTrack.artist ? ` — ${currentTrack.artist}` : ''}
+          </div>
+        )}
       </div>
 
       {/* Icon Cluster */}
