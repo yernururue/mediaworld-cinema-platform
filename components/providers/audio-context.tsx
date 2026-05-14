@@ -14,40 +14,40 @@ type Track = {
 const TRACKS: Track[] = [
   { 
     id: 'titanic', 
-    name: 'My Heart Will Go On', 
+    name: 'titanic.mp3', 
     artist: 'Celine Dion', 
     movie: 'Titanic',
     url: '/audio/titanic.mp3' 
   },
   { 
     id: 'bodyguard', 
-    name: 'I Will Always Love You', 
+    name: 'bodyguard.mp3', 
     artist: 'Whitney Houston', 
     movie: 'The Bodyguard',
     url: '/audio/bodyguard.mp3' 
   },
   { 
     id: '8mile', 
-    name: 'Lose Yourself', 
+    name: '8mile.mp3', 
     artist: 'Eminem', 
     movie: '8 Mile',
     url: '/audio/8mile.mp3' 
   },
   { 
     id: 'saturday', 
-    name: "Stayin' Alive", 
+    name: 'saturday.mp3', 
     artist: 'Bee Gees', 
     movie: 'Saturday Night Fever',
     url: '/audio/saturday.mp3' 
   },
   { 
     id: 'rocky', 
-    name: 'Eye of the Tiger', 
+    name: 'rocky.mp3', 
     artist: 'Survivor', 
     movie: 'Rocky III',
     url: '/audio/rocky.mp3' 
   },
-  { id: 'ambient', name: 'Cinematic Ambient', url: '/audio/cinematic-ambient.mp3' },
+  { id: 'ambient', name: 'cinematic-ambient.mp3', url: '/audio/cinematic-ambient.mp3' },
 ]
 
 type AudioContextType = {
