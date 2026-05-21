@@ -10,7 +10,7 @@ export function Footer() {
       <div className="max-w-[1800px] mx-auto px-6 md:px-12 lg:px-20">
         <div className="grid lg:grid-cols-12 gap-12 lg:gap-20">
           {/* Logo & Tagline */}
-          <div className="lg:col-span-4 space-y-6">
+          <div className="lg:col-span-6 space-y-6">
             <Link href="/" className="inline-block">
               <span className="font-serif text-2xl md:text-3xl font-semibold tracking-[0.1em] text-foreground">
                 MEDIA<span className="text-primary">WORLD</span>
@@ -22,7 +22,7 @@ export function Footer() {
           </div>
 
           {/* Navigation */}
-          <div className="lg:col-span-2">
+          <div className="lg:col-span-3">
             <h4 className="text-xs tracking-[0.2em] uppercase text-muted-foreground mb-6">
               Explore
             </h4>
@@ -40,7 +40,7 @@ export function Footer() {
           </div>
 
           {/* Legal */}
-          <div className="lg:col-span-2">
+          <div className="lg:col-span-3">
             <h4 className="text-xs tracking-[0.2em] uppercase text-muted-foreground mb-6">
               Legal
             </h4>
@@ -55,33 +55,6 @@ export function Footer() {
                 </Link>
               ))}
             </nav>
-          </div>
-
-          {/* Creators */}
-          <div className="lg:col-span-4">
-            <h4 className="text-xs tracking-[0.2em] uppercase text-muted-foreground mb-6">
-              Developed By
-            </h4>
-            <div className="space-y-6">
-              <div className="space-y-1">
-                <p className="text-sm font-medium text-foreground">Ағламханқызы Бибинұр</p>
-                <a 
-                  href="mailto:bibinur.aglamkhankyzy@narxoz.kz" 
-                  className="text-xs text-muted-foreground hover:text-primary transition-colors duration-300"
-                >
-                  bibinur.aglamkhankyzy@narxoz.kz
-                </a>
-              </div>
-              <div className="space-y-1">
-                <p className="text-sm font-medium text-foreground">Мыңбаев Айбол</p>
-                <a 
-                  href="mailto:aibol.mynbayev@narxoz.kz" 
-                  className="text-xs text-muted-foreground hover:text-primary transition-colors duration-300"
-                >
-                  aibol.mynbayev@narxoz.kz
-                </a>
-              </div>
-            </div>
           </div>
         </div>
 
