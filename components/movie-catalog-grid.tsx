@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { motion } from "framer-motion"
+import { motion, Variants } from "framer-motion"
 import { ImageReveal } from "@/components/ui/image-reveal"
 import { TmdbMovie, getTmdbImageUrl } from "@/lib/tmdb"
 import { Star, Play } from "lucide-react"
@@ -24,7 +24,7 @@ export function MovieCatalogGrid({ movies }: MovieCatalogGridProps) {
     }
   }
 
-  const item = {
+  const item: Variants = {
     hidden: { opacity: 0, y: 20 },
     show: { opacity: 1, y: 0, transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] } }
   }

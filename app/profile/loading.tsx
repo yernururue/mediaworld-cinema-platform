@@ -9,7 +9,7 @@ export default function ProfileLoading() {
       
       {/* Loading content */}
       <div className="relative z-10 flex flex-col items-center gap-6 animate-pulse">
-        <Spinner size="lg" className="text-primary/80" />
+        <Spinner className="w-12 h-12 text-primary/80" />
         <div className="flex flex-col items-center gap-2">
           <h2 className="font-serif text-2xl tracking-[0.1em] text-foreground/80">
             LOADING PROFILE
