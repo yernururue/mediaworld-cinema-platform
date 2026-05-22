@@ -120,31 +120,31 @@ export function ContactSection() {
                   }}
                 >
                   <div className="space-y-1">
-                    <span className="text-xs tracking-[0.2em] uppercase text-muted-foreground">Lead Developer</span>
-                    <p className="text-foreground">
-                      Ағламханқызы Бибинұр<br />
-                      <a href="mailto:bibinur.aglamkhankyzy@narxoz.kz" className="text-sm text-muted-foreground hover:text-primary transition-colors duration-300">
-                        bibinur.aglamkhankyzy@narxoz.kz
+                    <span className="text-xs tracking-[0.2em] uppercase text-muted-foreground">Customer Support</span>
+                    <p className="text-foreground text-sm">
+                      Have questions? Our support team is here to help.<br />
+                      <a href="mailto:support@mediaworld.com" className="text-sm text-muted-foreground hover:text-primary transition-colors duration-300">
+                        support@mediaworld.com
                       </a>
                     </p>
                   </div>
                   
                   <div className="space-y-1">
-                    <span className="text-xs tracking-[0.2em] uppercase text-muted-foreground">Platform Architect</span>
-                    <p className="text-foreground">
-                      Мыңбаев Айбол<br />
-                      <a href="mailto:aibol.mynbayev@narxoz.kz" className="text-sm text-muted-foreground hover:text-primary transition-colors duration-300">
-                        aibol.mynbayev@narxoz.kz
+                    <span className="text-xs tracking-[0.2em] uppercase text-muted-foreground">Business Inquiries</span>
+                    <p className="text-foreground text-sm">
+                      For partnerships, press, and corporate inquiries.<br />
+                      <a href="mailto:contact@mediaworld.com" className="text-sm text-muted-foreground hover:text-primary transition-colors duration-300">
+                        contact@mediaworld.com
                       </a>
                     </p>
                   </div>
 
                   <div className="space-y-1 pt-4">
-                    <span className="text-xs tracking-[0.2em] uppercase text-muted-foreground">Availability</span>
+                    <span className="text-xs tracking-[0.2em] uppercase text-muted-foreground">Headquarters</span>
                     <p className="text-foreground text-sm">
-                      Narxoz University<br />
-                      Development Phase 2<br />
-                      <span className="text-muted-foreground italic">Cinematic Experience Project</span>
+                      MediaWorld Inc.<br />
+                      100 Silver Screen Blvd<br />
+                      <span className="text-muted-foreground italic">Los Angeles, CA 90028</span>
                     </p>
                   </div>
                 </div>
