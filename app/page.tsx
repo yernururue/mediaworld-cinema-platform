@@ -9,7 +9,6 @@ const VisionSection = dynamic(() => import("@/components/sections/vision").then(
 const PhilosophySection = dynamic(() => import("@/components/sections/philosophy").then(mod => mod.PhilosophySection))
 const ExperienceSection = dynamic(() => import("@/components/sections/experience").then(mod => mod.ExperienceSection))
 const DishesSection = dynamic(() => import("@/components/sections/dishes").then(mod => mod.DishesSection))
-const PersonalInsightSection = dynamic(() => import("@/components/sections/personal-insight").then(mod => mod.PersonalInsightSection))
 const ContactSection = dynamic(() => import("@/components/sections/contact").then(mod => mod.ContactSection))
 const Footer = dynamic(() => import("@/components/footer").then(mod => mod.Footer))
 
@@ -38,7 +37,6 @@ export default async function Home({ searchParams }: PageProps) {
       <PhilosophySection />
       <ExperienceSection />
       <DishesSection movies={movies} />
-      <PersonalInsightSection />
       <ContactSection />
       <Footer />
     </main>
