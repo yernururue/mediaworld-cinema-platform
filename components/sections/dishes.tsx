@@ -4,7 +4,6 @@ import { useEffect, useRef, useState } from "react"
 import Image from "next/image"
 import { motion, AnimatePresence } from "framer-motion"
 import { ImageReveal } from "@/components/ui/image-reveal"
-import { CinemaInsightsTable } from "@/components/sections/cinema-table"
 import { MovieFilter } from "@/components/movie-filter"
 
 import { TmdbMovie, getTmdbImageUrl } from "@/lib/tmdb"
@@ -281,9 +280,6 @@ export function DishesSection({ movies = [] }: { movies?: TmdbMovie[] }) {
             but explore our full library to discover your next favorite.
           </p>
         </div>
-
-        {/* Cinema Insights Table */}
-        <CinemaInsightsTable />
       </div>
     </section>
   )
