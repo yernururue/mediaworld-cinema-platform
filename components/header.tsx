@@ -5,7 +5,6 @@ import Link from "next/link"
 import { cn } from "@/lib/utils"
 import { User } from "@supabase/supabase-js"
 
-import { CinematicPlayer } from "@/components/ui/cinematic-player"
 import { AuthButton } from "@/components/ui/auth-button"
 
 export function Header({ user }: { user?: User | null }) {
@@ -64,9 +63,8 @@ export function Header({ user }: { user?: User | null }) {
             ))}
           </nav>
 
-          {/* Right Section: Music Player + Auth */}
+          {/* Right Section: Auth */}
           <div className="hidden lg:flex items-center gap-8">
-            <CinematicPlayer />
             <AuthButton user={user} />
           </div>
 
