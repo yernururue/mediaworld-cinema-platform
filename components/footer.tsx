@@ -27,13 +27,19 @@ export function Footer() {
               Explore
             </h4>
             <nav className="space-y-4">
-              {["Movies", "Top Rated", "AI Assistant", "Featured Films", "Newsletter"].map((item) => (
+              {[
+                { label: "Movies", href: "/movies" },
+                { label: "Top Rated", href: "/#top-rated" },
+                { label: "AI Assistant", href: "/#ai-assistant" },
+                { label: "Featured Films", href: "/#featured" },
+                { label: "Newsletter", href: "/#contact" }
+              ].map((item) => (
                 <Link
-                  key={item}
-                  href={`#${item.toLowerCase()}`}
+                  key={item.label}
+                  href={item.href}
                   className="block text-sm text-foreground/70 hover:text-foreground transition-colors duration-300"
                 >
-                  {item}
+                  {item.label}
                 </Link>
               ))}
             </nav>
