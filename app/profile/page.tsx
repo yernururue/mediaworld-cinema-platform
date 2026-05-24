@@ -7,7 +7,12 @@ import type { FavoriteMovie, WatchHistoryItem, ReviewItem, ProfileData } from "@
 
 export const metadata: Metadata = {
   title: "My Profile — MediaWorld",
-  description: "Your cinematic profile — collection, watch history, and reviews.",
+  description: "View your personal MediaWorld cinematic profile. Manage your custom collections, track your watching history, write and edit film reviews, and refine your AI-curated recommendation preferences.",
+  openGraph: {
+    title: "My Profile — MediaWorld",
+    description: "View your personal MediaWorld cinematic profile. Manage your custom collections, track your watching history, write and edit film reviews, and refine your AI-curated recommendation preferences.",
+    type: "website",
+  },
 }
 
 export default async function ProfilePage() {

@@ -3,10 +3,16 @@ import { Footer } from "@/components/footer"
 import { MovieCatalogGrid } from "@/components/movie-catalog-grid"
 import { getTrendingMovies, getTopRated } from "@/lib/tmdb"
 import { createClient } from "@/lib/supabase/server"
+import type { Metadata } from "next"
 
-export const metadata = {
-  title: "Film Catalog | MediaWorld",
-  description: "Explore our curated collection of cinematic masterpieces.",
+export const metadata: Metadata = {
+  title: "The Library | Film Catalog — MediaWorld",
+  description: "Browse our hand-picked cinematic library. Discover trending releases, top-rated masterpieces, and exclusive director picks on MediaWorld.",
+  openGraph: {
+    title: "The Library | Film Catalog — MediaWorld",
+    description: "Browse our hand-picked cinematic library. Discover trending releases, top-rated masterpieces, and exclusive director picks on MediaWorld.",
+    type: "website",
+  },
 }
 
 export default async function MoviesPage() {

@@ -74,22 +74,32 @@ async function tmdbFetch<T>(endpoint: string, params: Record<string, string> = {
 // --- Data Fetchers ---
 
 export const getTrendingMovies = cache(async (timeWindow: 'day' | 'week' = 'day') => {
-  const data = await tmdbFetch<{ results: TmdbMovie[] }>(`trending/movie/${timeWindow}`);
-  return data.results;
+  try {
+    const data = await tmdbFetch<{ results: TmdbMovie[] }>(`trending/movie/${timeWindow}`);
+    return data?.results ?? [];
+  } catch (error) {
+    console.error(`Error in getTrendingMovies(${timeWindow}):`, error);
+    return [];
+  }
 });
 
 export const getMonthlyTop = cache(async () => {
-  const today = new Date();
-  const thirtyDaysAgo = subDays(today, 30);
-  
-  const data = await tmdbFetch<{ results: TmdbMovie[] }>('discover/movie', {
-    sort_by: 'popularity.desc',
-    'primary_release_date.gte': format(thirtyDaysAgo, 'yyyy-MM-dd'),
-    'primary_release_date.lte': format(today, 'yyyy-MM-dd'),
-    page: '1'
-  });
-  
-  return data.results;
+  try {
+    const today = new Date();
+    const thirtyDaysAgo = subDays(today, 30);
+    
+    const data = await tmdbFetch<{ results: TmdbMovie[] }>('discover/movie', {
+      sort_by: 'popularity.desc',
+      'primary_release_date.gte': format(thirtyDaysAgo, 'yyyy-MM-dd'),
+      'primary_release_date.lte': format(today, 'yyyy-MM-dd'),
+      page: '1'
+    });
+    
+    return data?.results ?? [];
+  } catch (error) {
+    console.error('Error in getMonthlyTop:', error);
+    return [];
+  }
 });
 
 /** Helper to resolve movies based on a time parameter */
@@ -100,12 +110,22 @@ export const getMoviesByTime = cache(async (time: string = 'day') => {
 });
 
 export const getTopRated = cache(async () => {
-  const data = await tmdbFetch<{ results: TmdbMovie[] }>('movie/top_rated', { page: '1' });
-  return data.results;
+  try {
+    const data = await tmdbFetch<{ results: TmdbMovie[] }>('movie/top_rated', { page: '1' });
+    return data?.results ?? [];
+  } catch (error) {
+    console.error('Error in getTopRated:', error);
+    return [];
+  }
 });
 
 export const getMovieDetails = cache(async (id: number) => {
-  return tmdbFetch<TmdbMovieDetails>(`movie/${id}`);
+  try {
+    return await tmdbFetch<TmdbMovieDetails>(`movie/${id}`);
+  } catch (error) {
+    console.error(`Error in getMovieDetails(${id}):`, error);
+    return null;
+  }
 });
 
 

@@ -3,6 +3,17 @@ import { Header } from "@/components/header"
 import { HeroSection } from "@/components/sections/hero"
 import { createClient } from "@/lib/supabase/server"
 import { getMoviesByTime } from "@/lib/tmdb"
+import type { Metadata } from 'next'
+
+export const metadata: Metadata = {
+  title: "MediaWorld | Premium Cinematic Experience Platform",
+  description: "Explore a curated collection of cinematic masterpieces. Enjoy highly-tailored, AI-powered film recommendations, high-fidelity soundscapes, and velvet-class streaming.",
+  openGraph: {
+    title: "MediaWorld | Premium Cinematic Experience Platform",
+    description: "Explore a curated collection of cinematic masterpieces. Enjoy highly-tailored, AI-powered film recommendations, high-fidelity soundscapes, and velvet-class streaming.",
+    type: "website",
+  },
+}
 
 // --- Lazy Load Below-the-Fold Sections ---
 const VisionSection = dynamic(() => import("@/components/sections/vision").then(mod => mod.VisionSection))
