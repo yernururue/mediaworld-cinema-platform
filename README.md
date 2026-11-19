@@ -1,212 +1,74 @@
-# 🎬 MediaWorld — Cinematic Experience Platform
+# MediaWorld
 
-> *Your ultimate streaming destination for movies, shows, and exclusive content. AI-powered recommendations tailored to your taste.*
+**An editorial-style movie discovery site: trending films from TMDB, an AI "cinema concierge" chat, and user profiles with favourites, watch history and reviews.**
 
----
-
-## 📖 About the Project
-
-**MediaWorld** is a modern, high-performance cinema platform landing page built with Next.js 16 and React 19. The project delivers a premium editorial-style user experience inspired by luxury cinema culture — think velvet seats, atmospheric lighting, and the magic of the silver screen.
-
-The platform serves as both a marketing front-end and a gateway into a full-featured streaming service. It features cinematic typography, parallax animations, smooth scroll-reveal effects, and an AI-powered film recommendation engine showcased through an elegant, interactive UI.
+`Next.js 16` · `React 19` · `TypeScript` · `Tailwind CSS 4` · `Supabase` · `TMDB API` · `Gemini 2.5 Flash` · `Groq` · `framer-motion`
 
 ---
 
-## 🎯 Goals
+## Features
 
-- **TMDB Dynamic Data** — Centralized `lib/tmdb.ts` fetcher with Bearer Token auth, caching (`revalidate: 3600`), and live trending movie data integration
-- **Time-Based Filtering** — Dynamic "Today", "This Week", and "This Month" filters for the featured movie grid with instant URL-driven state
-- **Cinematic Transitions** — Weightless fade-in and slide-up animations using `framer-motion` for a premium, alive interface
-- **Profile Optimization** — Zero-waterfall architecture for `/profile` using combined Supabase queries and `loading.tsx` for instant navigation
-- **Refined Header UX** — Immediate navigation to `/profile` on avatar click, and a dedicated `/movies` catalog link
-- **Full Film Catalog** — Dedicated `/movies` landing page with a responsive, animated movie grid and premium hover states
-- **AI-Powered Discovery** — Showcase a four-step AI assistant that learns user preferences and curates personalized film recommendations
-- **Responsive & Accessible** — Mobile-first layout with a collapsible navigation menu and keyboard-accessible interactive elements
-- **Secure Authentication** — Email and password validation layer using **Zod** (email format verification + minimum 8-character password requirement)
-- **Performance Optimized** — Intersection Observer–driven animations, passive scroll listeners, and Next.js image optimization
+- **Live movie data.** A small TMDB client ([`lib/tmdb.ts`](lib/tmdb.ts)) authenticates with a bearer token and caches responses for an hour. The home page shows films trending **today**, **this week** or **this month**, and the selected range is kept in the URL (`?time=`).
+- **Film catalog** at `/movies`, with an animated responsive grid.
+- **AI cinema concierge.** A floating chat on every page calls [`/api/chat`](app/api/chat/route.ts), which asks Gemini 2.5 Flash for recommendations and falls back to Groq (Llama 3.1 70B) if Gemini fails. Answers follow a fixed format: title, why it fits, and similar titles.
+- **Accounts and profiles.** Supabase email/password auth, with middleware that refreshes the session cookie. The `/profile` page loads the profile, favourites, watch history and reviews in parallel, and shows a loading skeleton so navigation feels instant.
+- **Landing page.** Hero with parallax, vision and philosophy sections, an explainer for the recommendation flow, and a contact form. Sections below the fold are loaded lazily to cut the initial JavaScript.
 
----
+## Database
 
-## ✨ Key Features
+The schema is in [`supabase/sql_migration001.sql`](supabase/sql_migration001.sql):
 
-### 🏠 Hero Section
-- Full-viewport cinematic background with a parallax scroll effect
-- Animated headline entrance with staggered timing (`cubic-bezier` easing)
-- Architectural grid line decorations that shift independently on scroll
-- `4K Ultra HD` / `Dolby Atmos` corner badge
-- Smooth scroll indicator with pulsing animation
+| Table | Purpose |
+|---|---|
+| `profiles` | extends `auth.users`: username, avatar, bio, favourite genres |
+| `movies` | local cache of TMDB films |
+| `user_favorites`, `user_watch_history`, `movie_reviews` | per-user activity |
+| `friendships`, `conversations`, `conversation_participants`, `messages` | social features, schema only |
+| `ai_recommendations` | stored recommendations, schema only |
 
-### 🔭 Vision Section
-- Brand mission and value statements
-- Editorial layout with large serif typography
+Row Level Security is on for profiles, movies, favourites, history and reviews. Users can only change their own rows, while profiles, movies and reviews are public to read.
 
-### 💡 Philosophy Section
-- Core brand principles presented in an elegant editorial format
-
-### 🤖 AI Assistant Section (`#ai-assistant`)
-- Interactive four-step accordion explaining the recommendation engine:
-  1. **Discover** — Tell Us Your Mood (natural language input)
-  2. **Analyze** — AI Processing (ML, sentiment analysis, pattern recognition)
-  3. **Curate** — Personalized Selection (top matches with explanations)
-  4. **Enjoy** — Watch & Refine (4K streaming + continuous learning)
-- Expandable step detail panels with feature bullet lists
-
-### 🎥 Featured Films Section (`#featured`)
-- Interactive film showcase with real-time data from TMDB:
-  - **Dynamic Filters** — Today, This Week, This Month (URL-synced)
-  - **Cinematic Transitions** — Smooth `framer-motion` fade-in when switching filters
-- Awards badges, genre tags, director credits, release year labels
-- Smooth image crossfade transitions between selections
-
-### 📬 Contact Section
-- Inquiry and newsletter sign-up form
-- Location, support email, and press contact details
-
-### 🧭 Navigation Header
-- Transparent-to-frosted-glass transition on scroll
-- Desktop horizontal nav + animated mobile full-screen overlay
-- Hover underline animations on all nav items
-- Responsive hamburger → X animation
-
-### 🦶 Footer
-- Brand tagline, explore links, legal links, social links
-- Oversized decorative serif quote text
-- Smooth "Back to Top" button
-
----
-
-## 🗂️ Page Sections (in order)
-
-| # | Section | ID / Anchor | Component |
-|---|---------|-------------|-----------|
-| 1 | Hero | — | `HeroSection` |
-| 2 | Vision | `#vision` | `VisionSection` |
-| 3 | Philosophy | `#philosophy` | `PhilosophySection` |
-| 4 | AI Experience | `#ai-assistant` | `ExperienceSection` |
-| 5 | Featured Films | `#featured` | `DishesSection` |
-| 6 | Film Catalog | `/movies` | `MoviesPage` |
-| 7 | Contact | `#contact` | `ContactSection` |
-
----
-
-## 🛠️ Tech Stack
-
-| Layer | Technology |
-|-------|-----------|
-| Framework | Next.js 16 (App Router) |
-| UI Library | React 19 |
-| Language | TypeScript 5 |
-| Styling | Tailwind CSS v4 |
-| Component System | Radix UI primitives (full suite) |
-| Icons | Lucide React |
-| Forms | React Hook Form + Zod |
-| Charts | Recharts |
-| Fonts | Inter, Playfair Display, JetBrains Mono (Google Fonts) |
-| Analytics | Vercel Analytics |
-| Animations | CSS transitions + `framer-motion` + Intersection Observer |
-| Images | Next.js `<Image>` with custom `ImageReveal` component |
-
----
-
-## 🚀 Getting Started
-
-### Prerequisites
-
-- **Node.js** ≥ 18
-- **npm** or **pnpm**
-
-### Installation
+## Run locally
 
 ```bash
-# Clone the repository
-git clone https://github.com/your-org/mediaworld.git
-cd mediaworld
-
-# Install dependencies
-npm install
-# or
 pnpm install
+pnpm dev                 # http://localhost:3000
 ```
 
-### Environment Setup
+Create `.env.local`:
 
-Copy the example environment file and fill in your values:
-
-```bash
-cp .env.local.example .env.local
+```env
+NEXT_PUBLIC_SUPABASE_URL=...
+NEXT_PUBLIC_SUPABASE_ANON_KEY=...
+TMDB_TOKEN=...           # TMDB API read access token (v4)
+GEMINI_API_KEY=...       # AI chat
+GROQ_API_KEY=...         # AI chat fallback
 ```
 
-Required environment variables are documented in `claude.md`.
+Then run `supabase/sql_migration001.sql` in the Supabase SQL editor.
 
-### Development
+## Project structure
 
-```bash
-npm run dev
+```text
+app/
+  page.tsx            home: hero, sections, trending films
+  movies/             film catalog
+  profile/            profile with favourites, history, reviews
+  login/              sign in / sign up
+  api/chat/           AI concierge (Gemini, Groq fallback)
+components/
+  sections/           landing page sections
+  profile/            profile tabs
+  ui/                 shadcn/Radix primitives, floating AI chat
+lib/
+  tmdb.ts             TMDB client with caching
+  supabase/           browser and server Supabase clients
+middleware.ts         Supabase session refresh
+supabase/             SQL schema and RLS policies
 ```
 
-Open [http://localhost:3000](http://localhost:3000) in your browser.
+## Status
 
-### Production Build
+Built in May 2026. The social tables (friends, messages) and stored AI recommendations exist in the schema but have no UI yet. There are no automated tests, and the site isn't deployed right now.
 
-```bash
-npm run build
-npm run start
-```
-
----
-
-## 📁 Project Structure
-
-```
-mediaworld/
-├── app/
-│   ├── globals.css          # Global styles & CSS custom properties
-│   ├── layout.tsx           # Root layout, fonts, metadata, analytics
-│   ├── movies/              # Film catalog landing page
-│   └── page.tsx             # Home page — composes all sections
-├── components/
-│   ├── header.tsx           # Fixed navigation header (now with avatar/dropdown)
-│   ├── footer.tsx           # Site footer
-│   ├── theme-provider.tsx   # next-themes dark/light mode wrapper
-│   └── sections/
-│       ├── hero.tsx         # Hero with parallax & entrance animation
-│       ├── vision.tsx       # Brand vision section
-│       ├── philosophy.tsx   # Brand philosophy section
-│       ├── experience.tsx   # AI assistant 4-step accordion
-│       ├── dishes.tsx       # Featured films showcase (Dynamic TMDB data)
-│       ├── movie-catalog-grid.tsx # Premium grid for /movies catalog
-│       ├── projects.tsx     # (Reserved) Featured projects layout
-│       └── contact.tsx      # Contact & newsletter form
-├── lib/
-│   ├── supabase/            # Supabase client & server utilities
-│   ├── tmdb.ts              # TMDB API core layer (centralized fetcher)
-│   └── utils.ts             # `cn()` class merge utility
-├── public/
-│   └── images/              # Hero, film, and experience images
-├── styles/                  # Additional global stylesheets
-├── .env.local               # Local environment variables (git-ignored)
-├── claude.md                # AI assistant context & architecture notes
-├── next.config.mjs          # Next.js configuration
-├── tailwind.config          # Tailwind CSS configuration
-└── tsconfig.json            # TypeScript configuration
-```
-
----
-
-## 🤝 Contributing
-
-1. Fork the repository
-2. Create your feature branch: `git checkout -b feature/my-feature`
-3. Commit your changes: `git commit -m 'feat: add my feature'`
-4. Push to the branch: `git push origin feature/my-feature`
-5. Open a Pull Request
-
----
-
-## 📄 License
-
-© 2026 MediaWorld. All rights reserved.
-
----
-
-*Cinema is the art that captures dreams and awakens wonder.*
+Movie data and images come from [TMDB](https://www.themoviedb.org/). This product uses the TMDB API but is not endorsed or certified by TMDB.
